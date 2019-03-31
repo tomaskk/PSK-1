@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+>
+<h:head/>
+<h:body>
+    <h2>[MyBatis] Registered shops:</h2> <hr/>
+    <ol>
+        <ui:repeat value="#{myBatisUCController.allShops}" var="shop">
+            <li><h:link value="#{shop.name} | #{shop.address}" outcome="products?shopId=#{shop.id}" /></li>
+        </ui:repeat>
+    </ol>
+    <hr/> <h2> Add Shop </h2>
+    <h:form>
+        <h:panelGrid columns="3">
+            <h:outputText for="sName">Shop title </h:outputText>
+            <h:inputText id="sName" value="#{myBatisUCController.shopToCreate.name}" required="true" a:placeholder="name"/><br/>
+            <h:outputText for="sAddress">Address </h:outputText>
+            <h:inputText id="sAddress" value="#{myBatisUCController.shopToCreate.address}" required="true" a:placeholder="address"/><br/><br/>
+        </h:panelGrid>
+        <h:commandButton value="Add new shop" action="#{myBatisUCController.createShop}" />
+    </h:form>
+    <hr/><br/>
+    <h:link value="Back to index" outcome="/index"/>
+</h:body>
+</html>

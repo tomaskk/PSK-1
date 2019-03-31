@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+>
+<h:head/>
+<h:body>
+    <h2>[JPA] Product management of [#{productsForShop.shop.name} | #{productsForShop.shop.address}] shop</h2>
+    <hr/>
+    <table rules="all">
+        <tr>
+            <td width="30%">
+                <h2>Available products:</h2>
+                <ol>
+                    <ui:repeat value="#{productsForShop.shop.products}" var="product">
+                        <li>#{product.name}</li>
+                    </ui:repeat>
+                </ol>
+                <h:form>
+                    <h:panelGrid columns="3">
+                        <h:outputText for="pName">Product name </h:outputText>
+                        <h:inputText id="pName" a:placeholder="name" value="#{productsForShop.productToCreate.name}" required="true"/><br/><br/>
+                    </h:panelGrid>
+                    <h:commandButton value="Add product to the shop" action="#{productsForShop.createProduct}">
+                        <f:param name="shopId" value="#{productsForShop.shop.id}"/>
+                    </h:commandButton>
+                </h:form>
+            </td>
+
+            <td width="70%" rowspan="2" valign="top">
+                <h2>Assign product to category: </h2>
+                <h:form>
+                    <h:panelGrid columns="3">
+                        <h:outputText for="catName">Category name </h:outputText>
+                        <h:inputText id="catName" a:placeholder="name" value="#{productsForShop.categoryToCreate.name}" required="true"/><br/>
+                        <h:outputText for="prodName">Product name </h:outputText>
+                        <h:inputText id="prodName" a:placeholder="name" value="#{productsForShop.productToCreate.name}" required="true"/><br/><br/>
+                    </h:panelGrid>
+                    <h:commandButton value="add data" action="#{productsForShop.connectProductWithCat}">
+                        <f:param name="shopId" value="#{productsForShop.shop.id}"/>
+                    </h:commandButton>
+                </h:form>
+                <br/>
+                <br/>
+                <p:fieldset legend="Categories X Products table" toggleable="true" style="width: 60%">
+                    <p:dataTable value="#{productsForShop.shop.categories}" var="cat">
+                        <p:column headerText="Category">
+                            <h:outputText value="#{cat.name}"/>
+                        </p:column>
+                        <p:column headerText="Products">
+                            <ui:repeat var="product" value="#{cat.productList}">
+                                <h:outputText value="#{product.name}, "/>
+                            </ui:repeat>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2>Available product categories: </h2>
+                <ol>
+                    <ui:repeat value="#{productsForShop.shop.categories}" var="category">
+                        <li>#{category.name}</li>
+                    </ui:repeat>
+                </ol>
+                <h:form>
+                    <h:panelGrid columns="3">
+                        <h:outputText for="cName">Category name </h:outputText>
+                        <h:inputText id="cName" a:placeholder="name" value="#{productsForShop.categoryToCreate.name}" required="true"/> <br/> <br/>
+                    </h:panelGrid>
+                    <h:commandButton value="Add product category" action="#{productsForShop.createCategory}">
+                        <f:param name="shopId" value="#{productsForShop.shop.id}"/>
+                    </h:commandButton>
+                </h:form>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <hr/><br/>
+    <h:link outcome="/JPA/shops" value="Back to shops page"/>
+</h:body>
+</html>
