@@ -61,7 +61,7 @@ public class ProductsForShop implements Serializable {
 
     @Transactional
     public String connectProductWithCat() {
-// idea - perkelti dali logikos i productsDAO/categoriesDAO  +  naudot id per pati objekta
+
         categoryToCreate.setShop(this.shop);
         productToCreate.setShop(this.shop);
         boolean legitCategory = false;

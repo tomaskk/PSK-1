@@ -7,7 +7,7 @@
 >
 <h:head/>
 <h:body>
-    <h2>[JPA] Shops:</h2>
+    <h2>[JPA] Registered shops:</h2> <hr/>
     <ol>
         <ui:repeat value="#{shops.allShops}" var="shop">
             <li><h:link value="#{shop.name} | #{shop.address}" outcome="products?shopId=#{shop.id}" /></li>
