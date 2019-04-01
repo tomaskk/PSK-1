@@ -13,6 +13,7 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
+import vu.lt.CDI.ProcessEnteredData;
 import vu.lt.entities.Category;
 import vu.lt.entities.Product;
 import vu.lt.entities.Shop;
@@ -22,6 +23,9 @@ import vu.lt.persistence.ShopsDAO;
 
 @Model
 public class ProductsForShop implements Serializable {
+
+    @Inject
+    private ProcessEnteredData processData;
 
     @Inject
     private ShopsDAO shopsDAO;
@@ -90,13 +94,8 @@ public class ProductsForShop implements Serializable {
 
         if(legitCategory && legitProduct)
         {
-            List<Product> products = categoriesDAO.findCategory(catID).getProductList();
-            products.add(productToCreate);
-            categoryToCreate.setProductList(products);
-
-            List<Category> cats = productsDAO.findProduct(prodID).getCatList();
-            cats.add(categoryToCreate);
-            productToCreate.setCatList(cats);
+            productToCreate  = processData.setProductConnection(prodID, categoryToCreate, productToCreate);
+            categoryToCreate = processData.setCategoryConnection(catID, categoryToCreate, productToCreate);
 
             productToCreate = productsDAO.update(productToCreate, prodID);
             categoryToCreate = categoriesDAO.update(categoryToCreate, catID);
